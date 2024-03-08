@@ -63,36 +63,41 @@ namespace ActorsAndMovies.Controllers
             return Ok(actor);
         }
 
-        [HttpPut("{id}/update")]
+        [HttpPut("{id}/update")] 
         public async Task<IActionResult> Update(int id, ActorMovieRequestDto amrd)
         {
             var actor = await actorRepository.GetActorByIdAsync(id);
 
+            if (actor == null)
+            {
+                return NotFound();
+            }
+
             actor.Name = amrd.Name;
             actor.Surname = amrd.Surname;
             actor.Country = amrd.Country;
-
-            var existingIds = actor.ActorMovies.Select(am => am.Id).ToList();
-
-            var selectedIds = amrd.MovieIds.ToList();
-
-            var toAdd = selectedIds.Except(existingIds).ToList();
-
-            var toRemove = existingIds.Except(selectedIds).ToList();
-
-            actor.ActorMovies = actor.ActorMovies.Where(x => !toRemove.Contains(x.ActorId)).ToList();
-
-            foreach(var item in toAdd)
-            {
-                actor.ActorMovies.Add(new ActorMovie()
-                {
-                    ActorId = item
-                });
-            }
+            
+            await actorRepository.UpdateActorAsync(actor, amrd.MovieIds);
 
             context.Actors.Update(actor);
-            await context.SaveChangesAsync();
-            return Ok(actor);   
+            return Ok(actor);
         }
+
+        [HttpDelete("{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var actorToDelete = await actorRepository.GetActorByIdAsync(id);
+
+            if (actorToDelete == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+               await actorRepository.DeleteActorAsync(id);
+               return Ok(actorToDelete);
+            }
+        }
+
     }
 }

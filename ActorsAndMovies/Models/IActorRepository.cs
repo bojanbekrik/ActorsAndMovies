@@ -10,6 +10,8 @@ namespace ActorsAndMovies.Models
 
         public Task<int> AddActorAsync(Actor actor);
 
-        //public Task UpdateActorAsync(Actor actor, IEnumerable<int> selectedMovieIds);
+        Task UpdateActorAsync(Actor actor, IEnumerable<int> selectedMovieIds);
+
+        public Task<int> DeleteActorAsync(int id);
     }
 }
