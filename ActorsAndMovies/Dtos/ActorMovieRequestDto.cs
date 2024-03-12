@@ -1,4 +1,4 @@
-﻿namespace ActorsAndMovies.Models
+﻿namespace ActorsAndMovies.Dtos
 {
     public class ActorMovieRequestDto
     {

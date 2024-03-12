@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ActorsAndMovies.Interfaces;
+using ActorsAndMovies.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace ActorsAndMovies.Models
+namespace ActorsAndMovies.Repositories
 {
     public class ActorRepository : IActorRepository
     {
@@ -17,15 +19,15 @@ namespace ActorsAndMovies.Models
             return await context.Actors
                 .Include(am => am.ActorMovies)
                 .ThenInclude(m => m.Movie)
-                .OrderBy(a=>a.ActorId)
+                .OrderBy(a => a.ActorId)
                 .ToListAsync();
         }
 
         public async Task<Actor?> GetActorByIdAsync(int id)
         {
             return await context.Actors
-                .Include (am => am.ActorMovies)
-                .ThenInclude (m => m.Movie)
+                .Include(am => am.ActorMovies)
+                .ThenInclude(m => m.Movie)
                 .FirstOrDefaultAsync(a => a.ActorId == id);
         }
 
@@ -35,7 +37,7 @@ namespace ActorsAndMovies.Models
             return await context.SaveChangesAsync();
         }
 
-        
+
         public async Task UpdateActorAsync(Actor actor, IEnumerable<int> selectedMovieIds)
         {
             var existingIds = actor.ActorMovies.Select(sc => sc.MovieId).ToList();
@@ -60,7 +62,7 @@ namespace ActorsAndMovies.Models
             var actorToDelete = await context.Actors
                 .Include(am => am.ActorMovies)
                 .ThenInclude(m => m.Movie)
-                .FirstOrDefaultAsync(a=>a.ActorId == id);
+                .FirstOrDefaultAsync(a => a.ActorId == id);
 
             if (actorToDelete == null)
             {
@@ -72,6 +74,6 @@ namespace ActorsAndMovies.Models
                 return await context.SaveChangesAsync();
             }
         }
-        
+
     }
 }

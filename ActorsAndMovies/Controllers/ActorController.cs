@@ -1,4 +1,6 @@
-﻿using ActorsAndMovies.Models;
+﻿using ActorsAndMovies.Dtos;
+using ActorsAndMovies.Interfaces;
+using ActorsAndMovies.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;

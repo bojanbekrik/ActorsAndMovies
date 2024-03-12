@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using ActorsAndMovies.Models;
 
-namespace ActorsAndMovies.Models
+namespace ActorsAndMovies.Interfaces
 {
     public interface IActorRepository
     {
