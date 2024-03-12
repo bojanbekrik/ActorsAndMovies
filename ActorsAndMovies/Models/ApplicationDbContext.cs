@@ -12,6 +12,10 @@ namespace ActorsAndMovies.Models
 
         public DbSet<Movie> Movies { get; set; }
 
+        public DbSet<ActingSchool> ActingSchools { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

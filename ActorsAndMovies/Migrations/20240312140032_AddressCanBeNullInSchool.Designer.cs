@@ -3,6 +3,7 @@ using ActorsAndMovies.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ActorsAndMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240312140032_AddressCanBeNullInSchool")]
+    partial class AddressCanBeNullInSchool
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +40,6 @@ namespace ActorsAndMovies.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
 
                     b.ToTable("ActingSchools");
                 });
@@ -129,17 +129,6 @@ namespace ActorsAndMovies.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("ActorsAndMovies.Models.ActingSchool", b =>
-                {
-                    b.HasOne("ActorsAndMovies.Models.Address", "Address")
-                        .WithOne("ActingSchool")
-                        .HasForeignKey("ActorsAndMovies.Models.ActingSchool", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-                });
-
             modelBuilder.Entity("ActorsAndMovies.Models.ActorMovie", b =>
                 {
                     b.HasOne("ActorsAndMovies.Models.Actor", "Actor")
@@ -162,11 +151,6 @@ namespace ActorsAndMovies.Migrations
             modelBuilder.Entity("ActorsAndMovies.Models.Actor", b =>
                 {
                     b.Navigation("ActorMovies");
-                });
-
-            modelBuilder.Entity("ActorsAndMovies.Models.Address", b =>
-                {
-                    b.Navigation("ActingSchool");
                 });
 
             modelBuilder.Entity("ActorsAndMovies.Models.Movie", b =>
